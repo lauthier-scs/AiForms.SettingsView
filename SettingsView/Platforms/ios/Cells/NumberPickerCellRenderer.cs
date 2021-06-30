@@ -213,11 +213,25 @@ namespace AiForms.Renderers.iOS
 
         void Select(int? number)
         {
-            var idx = number.HasValue ? _model.Items.IndexOf(number.Value) : -1;
-            if (idx == -1) {
+            int idx;
+            if (number.HasValue)
+            {
+                if (number.Value > _NumberPickerCell.Max)
+                {
+                    number = _NumberPickerCell.Max;
+                } else if (number.Value < _NumberPickerCell.Min)
+                {
+                    number = _NumberPickerCell.Min;
+                }
+
+                idx = _model.Items.IndexOf(number.Value);
+            }
+            else
+            {
                 number = _model.Items[0];
                 idx = 0;
             }
+
             _picker.Select(idx, 0, false);
             _model.SelectedItem = number.Value;
             _model.SelectedIndex = idx;

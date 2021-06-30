@@ -155,7 +155,16 @@ namespace AiForms.Renderers.Droid
             _picker.MaxValue = _max;
             if (_NumberPickerCell.Number.HasValue)
             {
-                _picker.Value = _NumberPickerCell.Number.Value;
+                var value = _NumberPickerCell.Number.Value;
+                if (value > _picker.MaxValue)
+                {
+                    value = _picker.MaxValue;
+                } else if (value < _picker.MinValue)
+                {
+                    value = _picker.MinValue;
+                }
+
+                _picker.Value = value;
             }
 
             if (!String.IsNullOrEmpty(_NumberPickerCell.Unit))
